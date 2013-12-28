@@ -12,6 +12,7 @@
  * @property integer $instagram_id
  * @property string $profile
  * @property string $access_token
+ * @property string $email
  */
 class Customers extends CActiveRecord
 {
@@ -31,16 +32,17 @@ class Customers extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, instagram_id, profile, access_token', 'required'),
+			array('username, email', 'required'),
 			array('instagram_id', 'numerical', 'integerOnly'=>true),
 			array('username', 'length', 'max'=>100),
 			array('password', 'length', 'max'=>20),
 			array('name', 'length', 'max'=>200),
-			array('website', 'length', 'max'=>300),
+			array('website, email', 'length', 'max'=>300),
 			array('access_token', 'length', 'max'=>128),
+			array('profile', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, username, password, name, website, instagram_id, profile, access_token', 'safe', 'on'=>'search'),
+			array('id, username, password, name, website, instagram_id, profile, access_token, email', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -69,6 +71,7 @@ class Customers extends CActiveRecord
 			'instagram_id' => 'Instagram',
 			'profile' => 'Profile',
 			'access_token' => 'Access Token',
+			'email' => 'Email',
 		);
 	}
 
@@ -98,6 +101,7 @@ class Customers extends CActiveRecord
 		$criteria->compare('instagram_id',$this->instagram_id);
 		$criteria->compare('profile',$this->profile,true);
 		$criteria->compare('access_token',$this->access_token,true);
+		$criteria->compare('email',$this->email,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
